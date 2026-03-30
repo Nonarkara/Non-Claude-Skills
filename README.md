@@ -1,12 +1,20 @@
-# Dr-Non-Stack
+# Non-Claude-Skills
 
-A comprehensive Claude Code skill encoding Dr. Non's complete project scaffold, design system, database strategy, SEO pipeline, deployment workflow, and data source catalog.
+A collection of Claude Code skills encoding Dr. Non's workflows, tools, and setup guides.
 
-## What This Is
+## Skills
 
-A reusable skill that auto-triggers on every new project, ensuring consistency across all of Dr. Non's work — dashboards, indices, landing pages, AI tools, and city monitoring systems.
+### dr-non-stack
+
+Complete project scaffold, design system, database strategy, SEO pipeline, deployment workflow, and data source catalog. Auto-triggers on every new project.
+
+### remote-coding-llm-setup
+
+Remote coding setup (iPad + MacBook via Tailscale + code-server) and offline LLM configuration (Ollama + Open WebUI). Code from anywhere, run AI locally.
 
 ## What's Inside
+
+### dr-non-stack
 
 ```
 dr-non-stack/
@@ -22,6 +30,21 @@ dr-non-stack/
 └── templates/
     ├── supabase-schema.sql           # Pageviews + content cache tables with indexes and RLS
     └── seo-head.tsx                  # Reusable SEO component for Next.js and Vite
+```
+
+### remote-coding-llm-setup
+
+```
+remote-coding-llm-setup/
+├── SKILL.md                          # Main skill — stack overview, quick setup checklist
+├── references/
+│   ├── remote-access-guide.md        # Tailscale, code-server, SSH, Blink Shell, iPad tips
+│   └── offline-llm-guide.md          # Ollama, Open WebUI, model selection, Continue.dev
+└── templates/
+    ├── macbook-setup.sh              # All-in-one macOS setup script
+    ├── code-server-setup.sh          # code-server install + launchd auto-start
+    ├── ollama-models.sh              # Ollama + recommended models for M3 8GB
+    └── docker-compose.yml            # Open WebUI container config
 ```
 
 ## Design Philosophy
@@ -49,10 +72,20 @@ dr-non-stack/
 
 ## Installation
 
-Copy `dr-non-stack/` to `~/.claude/skills/` to make it available across all Claude Code projects:
+Copy skills to `~/.claude/skills/` to make them available across all Claude Code projects:
 
 ```bash
+# Project scaffold & design system
 cp -r dr-non-stack/ ~/.claude/skills/dr-non-stack/
+
+# Remote coding & offline LLM setup
+cp -r remote-coding-llm-setup/ ~/.claude/skills/remote-coding-llm-setup/
+```
+
+To run the MacBook setup:
+
+```bash
+bash remote-coding-llm-setup/templates/macbook-setup.sh
 ```
 
 ## Author
