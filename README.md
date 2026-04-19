@@ -1,60 +1,73 @@
-# Dr-Non-Stack
+# Non-Claude-Skills
 
-A comprehensive Claude Code skill encoding Dr. Non's complete project scaffold, design system, database strategy, SEO pipeline, deployment workflow, and data source catalog.
+A curated set of Claude Code skills for building data dashboards, smart city tools, and civic tech — extracted from real deployments across ASEAN.
 
-## What This Is
+Built by Dr. Non Arkaraprasertkul (Harvard PhD, MIT Architect, Senior Expert at Thailand's depa).
 
-A reusable skill that auto-triggers on every new project, ensuring consistency across all of Dr. Non's work — dashboards, indices, landing pages, AI tools, and city monitoring systems.
+---
 
-## What's Inside
+## Skills
 
-```
-dr-non-stack/
-├── SKILL.md                          # Main skill — design philosophy, tech stack, checklists
-├── references/
-│   ├── design-system.md              # Colors, spacing, shadows, Don Norman, behavioral economics
-│   ├── seo-checklist.md              # Meta tags, OG, JSON-LD, multi-language, Core Web Vitals
-│   ├── database-scaffold.md          # Supabase/SQLite setup, Google Sheets backup, schemas
-│   ├── deployment-guide.md           # Render + GitHub Pages configs, health checks
-│   ├── free-data-sources.md          # 60+ free APIs (weather, conflict, finance, mapping, news)
-│   ├── satellite-data-guide.md       # STAC/COG, Sentinel Hub, Planetary Computer, GEE, providers
-│   └── news-pipeline-guide.md        # RSS-first news fetching, Supabase Edge Functions, Realtime
-└── templates/
-    ├── supabase-schema.sql           # Pageviews + content cache tables with indexes and RLS
-    └── seo-head.tsx                  # Reusable SEO component for Next.js and Vite
-```
+### [`dr-non-stack`](./dr-non-stack/)
 
-## Design Philosophy
+Dr. Non's complete project scaffold and design system. Covers tech stack decisions, visual hierarchy, Don Norman principles, behavioral economics, SEO, database setup, deployment, and a catalog of 60+ free data APIs.
 
-- **Jony Ive meets Dieter Rams** — clarity, simplicity, elegance, modernity
-- **Don Norman** — affordances, signifiers, feedback, mapping, constraints
-- **Behavioral Economics** — anchoring, default effect, social proof, loss aversion, progressive disclosure
-- **Typography** — Inter (body) + Manrope (headings), Helvetica-inspired clean aesthetic
+**Triggers on:** new project, scaffold, dashboard, landing page, design decisions, typography, color, deployment.
 
-## Core Principles
+---
 
-1. Every project has a database from day one (Supabase Pro)
-2. SEO and analytics are never optional
-3. Google Sheets as parallel analytics layer for easy visualization
-4. Design methodology is consistent across ALL projects
-5. Only the live deployed URL counts — localhost is never a deliverable
+### [`dr-non-golden-rules`](./dr-non-golden-rules/)
 
-## Tech Stack
+14 engineering principles proven in production — extracted from real 45-minute dashboard builds, open-source deployments, and city-scale work across ASEAN. Not best practices from a book. Rules that actually worked.
 
-- **Frontend**: Next.js + TypeScript + Tailwind CSS (or Vite + React for lighter projects)
-- **Database**: Supabase (PostgreSQL, Pro plan)
-- **Deployment**: Render (web services) / GitHub Pages (static)
-- **Geospatial**: Deck.gl + Mapbox GL
-- **AI**: Claude API (Opus 4.6)
+Includes: Ship First, Use What You Have, Kill What Doesn't Work, Open Source by Default, and the Golden Rule: **the best stack is the one that ships**.
+
+**Triggers on:** architecture decisions, tool selection, "should I build this", "is this worth keeping", build vs buy tradeoffs.
+
+---
+
+### [`karpathy-guidelines`](./karpathy-guidelines/)
+
+Behavioral guidelines to reduce common LLM coding mistakes. Derived from Andrej Karpathy's observations on AI coding pitfalls.
+
+4 rules: Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution.
+
+**Triggers on:** all coding tasks. Always active.
+
+Source: [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)
+
+---
 
 ## Installation
 
-Copy `dr-non-stack/` to `~/.claude/skills/` to make it available across all Claude Code projects:
+### Option 1 — Copy skills to global Claude Code directory
 
 ```bash
 cp -r dr-non-stack/ ~/.claude/skills/dr-non-stack/
+cp -r dr-non-golden-rules/ ~/.claude/skills/dr-non-golden-rules/
+cp -r karpathy-guidelines/ ~/.claude/skills/karpathy-guidelines/
 ```
 
-## Author
+### Option 2 — Clone the whole repo
 
-Dr. Non Arkaraprasertkul — Harvard PhD, MIT Architect, Smart City Expert at Thailand's depa
+```bash
+git clone https://github.com/nonarkara/Non-Claude-Skills.git
+cd Non-Claude-Skills
+
+# Copy all skills at once
+cp -r dr-non-stack dr-non-golden-rules karpathy-guidelines ~/.claude/skills/
+```
+
+### Option 3 — Reference from project CLAUDE.md
+
+Add to your project's `CLAUDE.md`:
+
+```
+Skills: dr-non-stack, dr-non-golden-rules, karpathy-guidelines
+```
+
+---
+
+## License
+
+MIT

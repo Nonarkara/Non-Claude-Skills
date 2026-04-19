@@ -1,0 +1,16 @@
+{
+  "name": "non-claude-skills",
+  "description": "Dr. Non's Claude Code skill set — project scaffold, engineering principles, and Karpathy behavioral guidelines. Built from real dashboard deployments across ASEAN smart city projects.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Dr. Non Arkaraprasertkul",
+    "url": "https://github.com/nonarkara"
+  },
+  "license": "MIT",
+  "keywords": ["dashboard", "smart-city", "design-system", "karpathy", "guidelines", "asean", "civic-tech"],
+  "skills": [
+    "./dr-non-stack",
+    "./dr-non-golden-rules",
+    "./karpathy-guidelines"
+  ]
+}
