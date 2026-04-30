@@ -39,7 +39,6 @@ PLIST_DIR="$HOME/Library/LaunchAgents"
 CS_PLIST="${PLIST_DIR}/com.coder.code-server.plist"
 mkdir -p "$PLIST_DIR"
 
-# Unload existing if present
 launchctl unload "$CS_PLIST" 2>/dev/null || true
 
 cat > "$CS_PLIST" << 'EOF'

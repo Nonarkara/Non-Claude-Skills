@@ -19,10 +19,7 @@ Tailscale creates a private network between your devices using WireGuard. No por
 ### MacBook Setup
 
 ```bash
-# Install via Homebrew
 brew install --cask tailscale
-
-# Or download from https://tailscale.com/download/mac
 ```
 
 After installing:
@@ -32,7 +29,6 @@ After installing:
 
 Get your Tailscale IP:
 ```bash
-# In terminal
 tailscale ip -4
 # Returns something like 100.64.0.1
 ```
@@ -71,11 +67,7 @@ brew install code-server
 
 ### Configure
 
-Edit the config file:
 ```bash
-# Config lives at:
-# ~/.config/code-server/config.yaml
-
 cat > ~/.config/code-server/config.yaml << 'EOF'
 bind-addr: 0.0.0.0:8080
 auth: password
@@ -87,8 +79,6 @@ EOF
 **Important:** Bind to `0.0.0.0` so it's accessible from Tailscale. This is safe because Tailscale traffic is encrypted and only your devices can reach it.
 
 ### Start on Boot (launchd)
-
-Create a launchd plist so code-server starts automatically:
 
 ```bash
 mkdir -p ~/Library/LaunchAgents
@@ -116,17 +106,13 @@ cat > ~/Library/LaunchAgents/com.coder.code-server.plist << 'EOF'
 </plist>
 EOF
 
-# Load it
 launchctl load ~/Library/LaunchAgents/com.coder.code-server.plist
 ```
 
 ### Verify
 
 ```bash
-# Check it's running
 launchctl list | grep code-server
-
-# Or open in browser
 open http://localhost:8080
 ```
 
@@ -169,10 +155,8 @@ brew install mosh
 ### MacBook: Add iPad's Public Key
 
 ```bash
-# Paste the public key from Blink into authorized_keys
 echo "PASTE_YOUR_PUBLIC_KEY_HERE" >> ~/.ssh/authorized_keys
 
-# Ensure correct permissions
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
 ```
@@ -216,7 +200,6 @@ This is complementary to the local LLM setup — use Claude Code when you have i
 ### Disable Password SSH Authentication
 
 ```bash
-# Edit SSH config on MacBook
 sudo nano /etc/ssh/sshd_config
 
 # Set these:
@@ -227,18 +210,14 @@ sudo nano /etc/ssh/sshd_config
 
 ### Tailscale-Only Access
 
-Since all services bind to `0.0.0.0`, they're technically accessible on any interface. To restrict to Tailscale only, bind services to your Tailscale IP:
+To restrict services to Tailscale only, bind to your Tailscale IP:
 
 ```yaml
-# code-server config — bind to Tailscale IP only
+# code-server config
 bind-addr: 100.64.0.1:8080
 ```
 
 Or use macOS firewall to block non-Tailscale access to these ports.
-
-### Tailscale ACLs
-
-In the Tailscale admin console, you can set Access Control Lists to restrict which devices can reach which services. For a personal setup this is optional, but good practice.
 
 ## 6. Keeping MacBook Awake
 
@@ -247,7 +226,6 @@ For the MacBook to be accessible remotely, it needs to stay awake:
 ### Prevent Sleep When Lid is Closed (with Power)
 
 ```bash
-# Install a tool to prevent sleep on lid close (when on power)
 # Option 1: Amphetamine from the Mac App Store (free, GUI)
 # Option 2: Use pmset
 sudo pmset -c sleep 0          # Never sleep on power adapter
@@ -257,7 +235,6 @@ sudo pmset -c disablesleep 1   # Prevent sleep even with lid closed
 ### Wake on Network Access
 
 ```bash
-# Enable Wake on LAN (works with Tailscale)
 sudo pmset -a womp 1
 ```
 

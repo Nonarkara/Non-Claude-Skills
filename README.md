@@ -10,7 +10,7 @@ Complete project scaffold, design system, database strategy, SEO pipeline, deplo
 
 ### remote-coding-llm-setup
 
-Remote coding setup (iPad + MacBook via Tailscale + code-server) and offline LLM configuration (Ollama + Open WebUI). Code from anywhere, run AI locally.
+Remote coding setup (iPad + MacBook via Tailscale + code-server) and offline LLM configuration (Ollama + Open WebUI + Open Interpreter). Code from anywhere, run AI locally.
 
 ## What's Inside
 
@@ -39,11 +39,12 @@ remote-coding-llm-setup/
 ├── SKILL.md                          # Main skill — stack overview, quick setup checklist
 ├── references/
 │   ├── remote-access-guide.md        # Tailscale, code-server, SSH, Blink Shell, iPad tips
-│   └── offline-llm-guide.md          # Ollama, Open WebUI, model selection, Continue.dev
+│   └── offline-llm-guide.md          # Ollama, Open WebUI, Open Interpreter, model selection, Continue.dev
 └── templates/
-    ├── macbook-setup.sh              # All-in-one macOS setup script
+    ├── macbook-setup.sh              # All-in-one macOS setup script (16GB M3 optimized)
     ├── code-server-setup.sh          # code-server install + launchd auto-start
-    ├── ollama-models.sh              # Ollama + recommended models for M3 8GB
+    ├── ollama-models.sh              # Ollama + recommended models for M3 16GB
+    ├── open-interpreter-setup.sh     # Open Interpreter (offline Claude Code alternative)
     └── docker-compose.yml            # Open WebUI container config
 ```
 

@@ -2,6 +2,7 @@
 # =============================================================================
 # MacBook Air M3 — Complete Remote Coding & Offline LLM Setup
 # Run this on your MacBook to set up everything at once.
+# Optimized for 16GB unified memory / 256GB SSD.
 # =============================================================================
 
 set -e
@@ -18,7 +19,7 @@ err()   { echo -e "${RED}[✗]${NC} $1"; }
 echo ""
 echo "================================================"
 echo "  Remote Coding & Offline LLM Setup for macOS"
-echo "  Optimized for MacBook Air M3 (8GB / 256GB)"
+echo "  Optimized for MacBook Air M3 (16GB / 256GB)"
 echo "================================================"
 echo ""
 
@@ -54,7 +55,6 @@ fi
 mkdir -p ~/.config/code-server
 if [ ! -f ~/.config/code-server/config.yaml ] || ! grep -q "0.0.0.0" ~/.config/code-server/config.yaml; then
     warn "Configuring code-server..."
-    # Generate a random password if none exists
     CS_PASSWORD=$(openssl rand -hex 12)
     cat > ~/.config/code-server/config.yaml << EOF
 bind-addr: 0.0.0.0:8080
@@ -167,11 +167,39 @@ else
     info "Ollama launchd plist already exists"
 fi
 
-# Pull recommended models
+# Pull recommended models for 16GB
 echo ""
 warn "Pulling recommended models (this may take a while on first run)..."
-ollama pull qwen2.5-coder:7b && info "qwen2.5-coder:7b pulled" || err "Failed to pull qwen2.5-coder:7b"
+ollama pull qwen2.5:14b && info "qwen2.5:14b pulled" || err "Failed to pull qwen2.5:14b"
 ollama pull phi3:mini && info "phi3:mini pulled" || err "Failed to pull phi3:mini"
+
+# --- Open Interpreter ---
+echo ""
+warn "Setting up Open Interpreter (offline Claude Code)..."
+if ! command -v python3 &> /dev/null; then
+    brew install python
+fi
+
+VENV_DIR="$HOME/.venvs/open-interpreter"
+if [ ! -d "$VENV_DIR" ]; then
+    mkdir -p "$HOME/.venvs"
+    python3 -m venv "$VENV_DIR"
+fi
+
+source "$VENV_DIR/bin/activate"
+pip install --upgrade pip > /dev/null 2>&1
+pip install open-interpreter > /dev/null 2>&1
+deactivate
+info "Open Interpreter installed"
+
+SHELL_RC="$HOME/.zshrc"
+ALIAS_LINE="alias oi='source $VENV_DIR/bin/activate && interpreter --model ollama/qwen2.5:14b'"
+if ! grep -q "alias oi=" "$SHELL_RC" 2>/dev/null; then
+    echo "" >> "$SHELL_RC"
+    echo "# Open Interpreter — offline AI agent (like Claude Code)" >> "$SHELL_RC"
+    echo "$ALIAS_LINE" >> "$SHELL_RC"
+    info "Added 'oi' alias to ~/.zshrc"
+fi
 
 # --- Docker + Open WebUI (optional) ---
 echo ""
@@ -217,6 +245,11 @@ echo "  VS Code:    http://${TAILSCALE_IP}:8080"
 echo "  Open WebUI: http://${TAILSCALE_IP}:3000"
 echo "  SSH:        ssh $(whoami)@${TAILSCALE_IP}"
 echo "  mosh:       mosh $(whoami)@${TAILSCALE_IP}"
+echo ""
+echo "  Offline AI (on MacBook terminal):"
+echo "  ─────────────────────────────────"
+echo "  oi                                    # Open Interpreter (like Claude Code)"
+echo "  ollama run qwen2.5:14b                # Direct chat with model"
 echo ""
 echo "  iPad setup:"
 echo "  1. Install Tailscale from App Store, sign in"
