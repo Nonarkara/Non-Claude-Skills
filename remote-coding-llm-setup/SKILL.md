@@ -1,116 +1,63 @@
 ---
 name: remote-coding-llm-setup
 description: >-
-  Remote coding setup for iPad + MacBook workflow and offline LLM configuration.
-  Use when setting up remote access, configuring Tailscale, installing code-server,
-  setting up Ollama, or when the user says "remote coding", "code from iPad",
-  "work from anywhere", "offline LLM", "local AI", "Tailscale", "code-server",
-  "Ollama", "Open WebUI", "Open Interpreter", or "portable setup". Covers both
-  the server (MacBook) and client (iPad) sides of the configuration.
+  Remote coding from iPad + offline LLM setup. Use when the user says "remote
+  coding", "iPad", "work from anywhere", "offline LLM", "local AI", "Tailscale",
+  "code-server", "Ollama", "Open Interpreter", or "portable setup".
 ---
 
 # Remote Coding & Offline LLM Setup
 
-One MacBook as a powerhouse. One iPad as a thin client. Code from anywhere with internet. Run AI models offline when you don't have it.
+MacBook = server. iPad = thin client. One script sets up everything.
 
-## Philosophy
-
-Your MacBook Air M3 is a capable machine — Apple Silicon, 16GB unified memory, all-day battery, silent operation. But it's not always with you. Your iPad is. This setup turns your MacBook into an always-on development server and AI inference engine, accessible from your iPad anywhere in the world.
-
-**Two capabilities, one laptop:**
-1. **Remote coding** — Full VS Code + terminal from iPad Safari
-2. **Offline AI** — Chat, code, analyze data, and write reports with local LLMs
-
-## The Stack
-
-| Layer | Tool | Why |
-|-------|------|-----|
-| Networking | **Tailscale** | Mesh VPN, zero-config, works through NAT/firewalls, free |
-| Code Editor | **code-server** | VS Code in the browser, perfect for iPad Safari PWA |
-| Terminal | **Blink Shell** (iPad) | Native SSH + mosh client, best terminal on iPad |
-| AI Chat | **Ollama + Open WebUI** | ChatGPT-like interface, runs locally, no internet needed |
-| AI Coding | **Continue.dev** | VS Code extension, connects to local Ollama models |
-| AI Agent | **Open Interpreter** | Claude Code-like offline agent — runs code, analyzes data, writes reports |
-| Cloud AI | **claude.ai/code** | Claude Code from iPad browser for remote AI sessions |
-
-## Quick Setup Checklist
-
-### MacBook (Server Side)
-
-- [ ] Install Homebrew (if not installed)
-- [ ] Install and start Tailscale — `brew install --cask tailscale`
-- [ ] Note your Tailscale IP (100.x.x.x) or MagicDNS hostname
-- [ ] Install code-server — `brew install code-server`
-- [ ] Configure code-server to start on boot (launchd)
-- [ ] Enable Remote Login (SSH) in System Settings > General > Sharing
-- [ ] Install Ollama — `brew install ollama`
-- [ ] Pull models — `ollama pull qwen2.5:14b && ollama pull phi3:mini`
-- [ ] Install Docker Desktop (for Open WebUI)
-- [ ] Run Open WebUI — `docker compose up -d`
-- [ ] Install Continue.dev extension in code-server
-- [ ] Install Open Interpreter — `pip install open-interpreter`
-
-### iPad (Client Side)
-
-- [ ] Install Tailscale from App Store, log in with same account
-- [ ] Install Blink Shell from App Store
-- [ ] Configure SSH key (generate in Blink, copy pubkey to MacBook)
-- [ ] Bookmark `http://<tailscale-ip>:8080` in Safari (code-server)
-- [ ] Add to Home Screen for PWA full-screen mode
-- [ ] Bookmark `http://<tailscale-ip>:3000` in Safari (Open WebUI)
-- [ ] Test SSH via Blink: `ssh user@<tailscale-ip>`
-
-## Model Recommendations (16GB M3 MacBook Air)
-
-16GB unified memory runs 14B models comfortably. Budget ~12-15GB disk for models.
-
-| Use Case | Model | Disk Size | RAM Usage | Speed on M3 |
-|----------|-------|-----------|-----------|--------------|
-| All-purpose | `qwen2.5:14b` | ~9 GB | ~10 GB | ~15 tok/s |
-| Coding | `qwen2.5-coder:14b` | ~9 GB | ~10 GB | ~15 tok/s |
-| Quick chat | `phi3:mini` | ~2.3 GB | ~3 GB | ~35 tok/s |
-| Lightweight coding | `qwen2.5-coder:7b` | ~4.4 GB | ~5 GB | ~25 tok/s |
-| General 8B | `llama3.1:8b` | ~4.7 GB | ~5 GB | ~25 tok/s |
-
-**Recommended combo:** `qwen2.5:14b` + `phi3:mini` = ~11 GB disk. One powerful all-rounder plus a fast model for quick questions.
-
-> **Tip:** Only one model loads into RAM at a time. Ollama auto-unloads after 5 minutes of inactivity.
-
-## Accessing Everything from iPad
-
-Once Tailscale is connected on both devices:
-
-| Service | URL from iPad | Port |
-|---------|---------------|------|
-| code-server (VS Code) | `http://<tailscale-ip>:8080` | 8080 |
-| Open WebUI (AI Chat) | `http://<tailscale-ip>:3000` | 3000 |
-| Ollama API | `http://<tailscale-ip>:11434` | 11434 |
-| SSH | `ssh user@<tailscale-ip>` | 22 |
-
-## One-Line Setup
-
-Run the all-in-one script on your MacBook:
-
-```bash
-bash templates/macbook-setup.sh
+```
+iPad (anywhere)  ──── Tailscale VPN ────  MacBook (home/office)
+  ├─ Safari → code-server :8080           ├─ Ollama (qwen2.5:14b, phi3:mini)
+  ├─ Safari → Open WebUI  :3000           ├─ Open Interpreter (offline Claude Code)
+  └─ Blink Shell → SSH    :22             └─ Continue.dev (AI in VS Code)
 ```
 
-Or run individual components:
+## Setup
+
+### MacBook — one command
 
 ```bash
-bash templates/code-server-setup.sh          # Just code-server
-bash templates/ollama-models.sh              # Just Ollama + models
-bash templates/open-interpreter-setup.sh     # Just Open Interpreter
+curl -fsSL https://raw.githubusercontent.com/nonarkara/Non-Claude-Skills/main/remote-coding-llm-setup/setup.sh | bash
 ```
 
-## Security Notes
+Or if you already cloned the repo: `bash remote-coding-llm-setup/setup.sh`
 
-- All traffic goes through Tailscale's encrypted WireGuard tunnel
-- code-server and Open WebUI are **only accessible via Tailscale** — not exposed to the public internet
-- SSH should use key authentication only (disable password auth)
-- Tailscale ACLs can restrict which devices can connect
+The script installs Tailscale, code-server, Ollama, models, Open Interpreter, and Open WebUI. No prompts. Idempotent — safe to run again.
 
-## Reference Guides
+### iPad — 5 minutes, manual
 
-- [Remote Access Setup](references/remote-access-guide.md) — Tailscale, code-server, SSH, Blink Shell, iPad tips
-- [Offline LLM Setup](references/offline-llm-guide.md) — Ollama, Open WebUI, Open Interpreter, model selection, Continue.dev, performance tuning
+1. **Tailscale** — App Store, sign in with same account as MacBook
+2. **Blink Shell** — App Store, generate SSH key, copy pubkey to MacBook's `~/.ssh/authorized_keys`
+3. **Safari** — bookmark `http://<tailscale-ip>:8080` → Add to Home Screen (full-screen VS Code)
+4. **Safari** — bookmark `http://<tailscale-ip>:3000` (AI chat)
+
+Get your Tailscale IP: run `tailscale ip -4` on MacBook.
+
+## Models (16GB M3)
+
+| Model | Use | Disk | Speed |
+|-------|-----|------|-------|
+| `qwen2.5:14b` | Everything: code, analysis, writing | 9 GB | ~15 tok/s |
+| `phi3:mini` | Quick questions | 2.3 GB | ~35 tok/s |
+
+Only one loads at a time. Auto-unloads after 5 min idle.
+
+## Daily Use
+
+| Task | Command / URL |
+|------|--------------|
+| Code from iPad | `http://<tailscale-ip>:8080` in Safari |
+| AI chat from iPad | `http://<tailscale-ip>:3000` in Safari |
+| SSH from iPad | Type `macbook` in Blink Shell |
+| Offline Claude Code | `oi` in terminal |
+| Direct model chat | `ollama run qwen2.5:14b` |
+| Claude Code (online) | `claude.ai/code` in Safari |
+
+## Reference
+
+Full details: [setup-guide.md](setup-guide.md) — Tailscale config, code-server tuning, SSH hardening, model selection, Open Interpreter examples, troubleshooting.
