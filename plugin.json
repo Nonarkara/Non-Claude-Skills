@@ -11,6 +11,8 @@
   "skills": [
     "./dr-non-stack",
     "./dr-non-golden-rules",
-    "./karpathy-guidelines"
+    "./karpathy-guidelines",
+    "./ninja-innovation",
+    "./non-app-pattern"
   ]
 }
